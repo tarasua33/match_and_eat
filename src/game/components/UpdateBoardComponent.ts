@@ -10,9 +10,6 @@ export class UpdateBoardComponent {
     }
 
     this._updatePositions(model, board);
-
-    console.log(model);
-    console.log(board);
   }
 
   private _updatePositions(model: CHIPS[][], board: Board): void {
@@ -80,8 +77,5 @@ export class UpdateBoardComponent {
         }
       }
     }
-
-    console.log(model);
-    console.log(board);
   }
 }

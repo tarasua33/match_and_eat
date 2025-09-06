@@ -200,7 +200,7 @@ export class SwapComponent {
       x: posB.x,
       y: posB.y,
       duration: 350,
-      ease: isBack ? 'Cubic.easeOut' : 'Back.easeIn'
+      ease: isBack ? 'Cubic.easeOut' : 'Back.easeInOut'
     });
 
     this._tweens.add({
@@ -208,7 +208,7 @@ export class SwapComponent {
       x: posA.x,
       y: posA.y,
       duration: 350,
-      ease: isBack ? 'Cubic.easeOut' : 'Back.easeIn',
+      ease: isBack ? 'Cubic.easeOut' : 'Back.easeInOut',
       onComplete: this._onSwap.bind(this)
     })
   }

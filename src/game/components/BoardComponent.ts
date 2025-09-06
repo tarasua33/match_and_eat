@@ -90,6 +90,7 @@ export class BoardComponent {
       }
     }
 
+    console.log(model);
     this.findWins();
   }
 
