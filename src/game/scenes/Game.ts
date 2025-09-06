@@ -1,7 +1,8 @@
 import { Scene } from 'phaser';
 import { CELL, GAME_DIMENSIONS, MAX_CHIPS } from '../GameConfig';
-import { BoardComponent } from '../components/BoardComponent';
+import { baseModel, BoardComponent } from '../components/BoardComponent';
 import { Chip } from '../gameObjects/Chip';
+import { BgTile } from '../gameObjects/BgTile';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -50,16 +51,33 @@ export class Game extends Scene {
   public initGame(): void {
     const boardContainer = this.add.container();
     boardContainer.setPosition(CELL.width, CELL.height);
+    const bgBoardVfx = this._createBoardBgVfx(boardContainer);
     const chipsPool = this.add.group({
       classType: Chip,
       maxSize: MAX_CHIPS,
     });
 
-    const boardComponent = new BoardComponent(chipsPool, boardContainer, this.tweens, this.input);
+    const boardComponent = new BoardComponent(chipsPool, boardContainer, bgBoardVfx, this.tweens, this.input);
     boardComponent.spawn();
 
     // const img = this.add.image(30, 30, "explosion_yellow_8");
     // const anim = this.add.
+  }
+
+  private _createBoardBgVfx(container: Phaser.GameObjects.Container): BgTile[][] {
+    const { WIDTH, HEIGHT } = baseModel;
+    const result: BgTile[][] = [];
+    for (let x = 0; x < WIDTH; x++) {
+      result.push([]);
+      for (let y = 0; y < HEIGHT; y++) {
+        const vfx = new BgTile(this);
+        container.add(vfx);
+        vfx.setPositionOnGrid(x, y);
+        result[x].push(vfx);
+      }
+    }
+
+    return result;
   }
 
   resize(gameSize: Partial<Phaser.Structs.Size>) {

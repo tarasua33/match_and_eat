@@ -1,4 +1,5 @@
 import { EVENTS } from "../events/EventBusComponent";
+import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
 import { BoardCollectWinsComponent } from "./BoardCollectWinsComponent";
 import { DropChipsComponent } from "./DropChipsComponent";
@@ -28,7 +29,7 @@ const model = [
   [CHIPS.C5, CHIPS.C6, CHIPS.C7, CHIPS.C1, CHIPS.C2, CHIPS.C3,],
 ];
 
-const baseModel = {
+export const baseModel = {
   WIDTH: 6,
   HEIGHT: 6
 }
@@ -56,18 +57,20 @@ export class BoardComponent {
   private _boardContainer: Phaser.GameObjects.Container;
   private _board: Board = [];
   private _wins: Match3Win[] = [];
+  // private _bgBoardVfx: BgTile[][];
 
   constructor(
     chipsPool: Phaser.GameObjects.Group,
     boardContainer: Phaser.GameObjects.Container,
+    bgBoardVfx: BgTile[][],
     tweens: Phaser.Tweens.TweenManager,
     input: Phaser.Input.InputPlugin
   ) {
     this._chipsPool = chipsPool;
     this._boardContainer = boardContainer;
     this._tweens = tweens;
-    // this._input = input;
-    this.swapComponent = new SwapComponent(input, tweens);
+    // this._bgBoardVfx = bgBoardVfx;
+    this.swapComponent = new SwapComponent(input, tweens, bgBoardVfx);
 
     this.boardCollectWinsComponent.eventsBus.on(EVENTS.CHIP_REMOVED, this._onChipRemoved, this);
   }

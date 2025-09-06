@@ -1,5 +1,6 @@
 import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { CELL } from "../GameConfig";
+import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
 import { Board, CHIPS } from "./BoardComponent";
 
@@ -11,17 +12,33 @@ export class SwapComponent {
   private _draggedChip: Chip | undefined;
   private _swapChipA: Chip | undefined;
   private _swapChipB: Chip | undefined;
+  private _previousSwapChipA: Chip | undefined;
+  private _previousSwapChipB: Chip | undefined;
   private _board: Board;
   private _model: CHIPS[][];
+  private _bgBoardVfx: BgTile[][];
 
-  constructor(input: Phaser.Input.InputPlugin, tweens: Phaser.Tweens.TweenManager) {
+
+  constructor(
+    input: Phaser.Input.InputPlugin,
+    tweens: Phaser.Tweens.TweenManager,
+    bgBoardVfx: BgTile[][]
+
+  ) {
     this._tweens = tweens;
     this._input = input;
+    this._bgBoardVfx = bgBoardVfx;
   }
 
   public awaitSwap(board: Board, model: CHIPS[][]): void {
     this._board = board;
     this._model = model;
+
+    this._subscribeInputs();
+  }
+
+  private _subscribeInputs(): void {
+    const board = this._board;
 
     for (let x = 0; x < board.length; x++) {
       for (let y = 0; y < board[x].length; y++) {
@@ -29,13 +46,80 @@ export class SwapComponent {
         board[x][y]!.awaitSwap();
       }
     }
+
     this._input.on('pointermove', this._onDrag, this);
     this._input.on('pointerup', this._onPointedUp, this);
   }
 
   private _onPointed(chip: Chip): void {
-    // console.log("Pointed", chip.startDrag.x, chip.startDrag.y);
     this._draggedChip = chip;
+
+    if (this._swapChipB) {
+      this._bgBoardVfx[this._swapChipB.gridX][this._swapChipB.gridY].visible = false;
+    }
+
+    if (this._swapChipA) {
+      const swapChipA = this._swapChipA;
+      this._swapChipB = swapChipA;
+      this._bgBoardVfx[swapChipA.gridX][swapChipA.gridY].visible = true;
+    }
+
+    this._bgBoardVfx[chip.gridX][chip.gridY].visible = true;
+    this._swapChipA = chip;
+
+    if (this._swapChipB && this._swapChipA && this._swapChipB !== this._swapChipA) {
+      if (this._canSwap()) {
+        this._trySwap(this._swapChipA, this._swapChipB!);
+      } else {
+        this._playCantSwap(this._swapChipA, this._swapChipB!)
+      }
+    }
+  }
+
+  private _playCantSwap(chipA: Chip, chipB: Chip): void {
+    this._disableInputs();
+    this._hideVfx();
+    this._disablePickedChips();
+
+    this._showVfx(chipA, chipB);
+    this._swapChipA = chipA;
+    this._swapChipB = chipB;
+
+    this._tweens.add({
+      targets: chipA,
+      rotation: Math.PI / 18,
+      duration: 150,
+      yoyo: true,
+      ease: 'Back.easeInOut'
+    });
+
+    this._tweens.add({
+      targets: chipB,
+      rotation: Math.PI / 18,
+      duration: 150,
+      yoyo: true,
+      ease: 'Back.easeInOut',
+      onComplete: this._onNotSwap.bind(this)
+    })
+  }
+
+  private _onNotSwap(): void {
+    this._hideVfx();
+    this._disablePickedChips();
+
+    this._subscribeInputs();
+  }
+
+  private _canSwap(): boolean {
+    const swapChipB = this._swapChipB;
+    const swapChipA = this._swapChipA;
+    const res = swapChipB &&
+      swapChipA &&
+      swapChipB !== swapChipA &&
+      ((Math.abs(swapChipB.gridX - swapChipA.gridX) === 1 && Math.abs(swapChipB.gridY - swapChipA.gridY) === 0) ||
+        (Math.abs(swapChipB.gridX - swapChipA.gridX) === 0 && Math.abs(swapChipB.gridY - swapChipA.gridY) === 1))
+
+    return !!res;
   }
 
   private _onDrag(pointer: Phaser.Input.Pointer): void {
@@ -44,14 +128,10 @@ export class SwapComponent {
       const dx = pointer.x - this._draggedChip.startDrag.x;
       const dy = pointer.y - this._draggedChip.startDrag.y;
 
-      // console.log("startDrag", this._draggedChip.startDrag.x, this._draggedChip.startDrag.y);
-      // console.log("pointer", pointer.x, pointer.y);
-      // console.log(dx, dy);
       const threshold = CELL.width / 3;
       const board = this._board;
 
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
-        // свайп по горизонталі
         if (dx > 0) {
           this._trySwap(draggedChip, board[draggedChip.gridX + 1][draggedChip.gridY]!);
         } else {
@@ -88,8 +168,9 @@ export class SwapComponent {
   private _trySwap(chipA: Chip, chipB: Chip): void {
     this._disableInputs();
 
-    this._swapChipB = chipB;
-    this._swapChipA = chipA;
+    this._hideVfx();
+    this._disablePickedChips();
+
     this._startSwap(chipA, chipB);
   }
 
@@ -97,10 +178,17 @@ export class SwapComponent {
     this._board = board;
     this._model = model;
 
-    this._startSwap(this._swapChipB!, this._swapChipA!, true);
+    this._startSwap(this._previousSwapChipB!, this._previousSwapChipA!, true);
+  }
+
+  private _showVfx(chipA: Chip, chipB: Chip): void {
+    const bgBoardVfx = this._bgBoardVfx;
+    bgBoardVfx[chipA.gridX][chipA.gridY].visible = true;
+    bgBoardVfx[chipB.gridX][chipB.gridY].visible = true;
   }
 
   private _startSwap(chipA: Chip, chipB: Chip, isBack?: boolean): void {
+    this._showVfx(chipA, chipB);
     this._swapChipA = chipA;
     this._swapChipB = chipB;
 
@@ -133,8 +221,11 @@ export class SwapComponent {
     const board = this._board;
     const model = this._model;
 
-    const chipA = this._swapChipA!;
-    const chipB = this._swapChipB!;
+    const chipA = this._previousSwapChipA = this._swapChipA!;
+    const chipB = this._previousSwapChipB = this._swapChipB!;
+
+    this._hideVfx();
+    this._disablePickedChips();
 
     model[chipA!.gridX][chipA!.gridY] = chipB!.typeID;
     model[chipB!.gridX][chipB!.gridY] = chipA!.typeID;
@@ -148,6 +239,25 @@ export class SwapComponent {
     board[gridB.x][gridB.y] = chipA;
     chipA.setNewGridPosition(gridB.x, gridB.y);
 
+    this._hideVfx();
+
     this.eventsBus.emit(EVENTS.CHIPS_SWAPPED);
+  }
+
+  private _disablePickedChips(): void {
+    this._swapChipB = undefined;
+    this._swapChipA = undefined;
+    this._draggedChip = undefined;
+  }
+
+  private _hideVfx(): void {
+    const bgBoardVfx = this._bgBoardVfx;
+    if (this._swapChipB) {
+      bgBoardVfx[this._swapChipB.gridX][this._swapChipB.gridY].visible = false;
+    }
+
+    if (this._swapChipA) {
+      bgBoardVfx[this._swapChipA.gridX][this._swapChipA.gridY].visible = false;
+    }
   }
 }
