@@ -1,0 +1,9 @@
+export enum EVENTS {
+  CHIP_COLLECTED = "CHIP_COLLECTED",
+  CHIP_REMOVED = "CHIP_REMOVED",
+  CHIPS_DROPPED = "CHIPS_DROPPED",
+  CHIP_POINTED = "CHIPS_DROPPED",
+  CHIPS_SWAPPED = "CHIPS_DROPPED",
+}
+
+export class EventBusComponent extends Phaser.Events.EventEmitter { }

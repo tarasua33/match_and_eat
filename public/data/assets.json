@@ -1,0 +1,812 @@
+[
+  {
+    "path": "assets/chips",
+    "files": [
+      {
+        "type": "image",
+        "key": "chip_1",
+        "url": "characters_0001.png"
+      },
+      {
+        "type": "image",
+        "key": "chip_2",
+        "url": "characters_0002.png"
+      },
+      {
+        "type": "image",
+        "key": "chip_3",
+        "url": "characters_0003.png"
+      },
+      {
+        "type": "image",
+        "key": "chip_4",
+        "url": "characters_0004.png"
+      },
+      {
+        "type": "image",
+        "key": "chip_5",
+        "url": "characters_0005.png"
+      },
+      {
+        "type": "image",
+        "key": "chip_6",
+        "url": "characters_0006.png"
+      },
+      {
+        "type": "image",
+        "key": "chip_7",
+        "url": "characters_0007.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Blue",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_blue_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_blue_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Cyan",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_cyan_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_cyan_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Green",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_green_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_green_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Pink",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_pink_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_pink_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Purple",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_purple_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_purple_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Red",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_red_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_red_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  },
+  {
+    "path": "assets/explosions/Yellow",
+    "files": [
+      {
+        "type": "image",
+        "key": "explosion_yellow_0",
+        "url": "explosion_0.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_1",
+        "url": "explosion_1.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_2",
+        "url": "explosion_2.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_3",
+        "url": "explosion_3.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_4",
+        "url": "explosion_4.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_5",
+        "url": "explosion_5.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_6",
+        "url": "explosion_6.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_7",
+        "url": "explosion_7.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_8",
+        "url": "explosion_8.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_9",
+        "url": "explosion_9.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_10",
+        "url": "explosion_10.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_11",
+        "url": "explosion_11.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_12",
+        "url": "explosion_12.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_13",
+        "url": "explosion_13.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_14",
+        "url": "explosion_14.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_15",
+        "url": "explosion_15.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_16",
+        "url": "explosion_16.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_17",
+        "url": "explosion_17.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_18",
+        "url": "explosion_18.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_19",
+        "url": "explosion_19.png"
+      },
+      {
+        "type": "image",
+        "key": "explosion_yellow_20",
+        "url": "explosion_20.png"
+      }
+    ]
+  }
+]
