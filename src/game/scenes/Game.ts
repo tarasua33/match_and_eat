@@ -21,17 +21,8 @@ export class Game extends Scene {
     this.camera = this.cameras.main;
     // this.camera.setBackgroundColor(0x00ff00);
 
-    // this.background = this.add.image(0, 0, 'background');
-    // this.background.setOrigin(0);
-    // // this.background.width = this.scale.width;
-    // // this.background.height = this.scale.height;
-    // this.background.setAlpha(0.5);
-
     const border = this.add.rectangle(0, 0, GAME_DIMENSIONS.width, GAME_DIMENSIONS.height, 0xffffff);
     border.setOrigin(0);
-
-    // const chip = this.add.image(this.scale.width / 2, this.scale.height / 2, 'chip_1');
-    // chip.setOrigin(0.5);
 
     // this.msg_text = this.add.text(this.scale.width / 2, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
     //   fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
@@ -39,12 +30,6 @@ export class Game extends Scene {
     //   align: 'center'
     // });
     // this.msg_text.setOrigin(0.5);
-
-    // this.input.once('pointerdown', () => {
-
-    //   this.scene.start('GameOver');
-
-    // });
 
     this.scale.on('resize', this.resize, this);
     this.resize({ width: window.innerWidth, height: window.innerHeight });
@@ -78,6 +63,7 @@ export class Game extends Scene {
       this.input
     );
     boardComponent.spawn();
+    boardComponent.playShowBoard();
 
     // const img = this.add.image(30, 30, "explosion_yellow_8");
     // const anim = this.add.

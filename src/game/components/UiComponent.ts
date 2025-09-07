@@ -15,16 +15,26 @@ export class UiComponent extends BaseComponent {
   }
 
   public playNewLvl(): void {
-    const gaols = this._lvlModel.getNewGoals();
+    this._lvlModel.getNewGoals();
+    this.uiBoardEventsBus.once(EVENTS.CHIPS_DROPPED, this._showGoalsUI, this);
+  }
 
-    this._goalPopup.resetGoals(gaols);
+  private _showGoalsUI(): void {
+    const goalPopup = this._goalPopup;
+    goalPopup.eventsBus.once(EVENTS.UI_READY, this._goalUIReady, this);
+    this._goalPopup.resetGoals(this._lvlModel.goals);
+    goalPopup.show()
+  }
+
+  private _goalUIReady(): void {
+    this.uiBoardEventsBus.emit(EVENTS.UI_READY);
   }
 
   private _chipCollected(id: CHIPS): void {
     const isGoal = this._lvlModel.minusChip(id);
 
     if (isGoal) {
-      this._goalPopup.resetGoals(this._lvlModel.goals);
+      this._goalPopup.updateGoals(this._lvlModel.goals);
     }
   }
 }

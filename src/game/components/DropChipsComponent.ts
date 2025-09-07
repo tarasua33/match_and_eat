@@ -6,7 +6,7 @@ import { Board } from "./BoardComponent";
 export class DropChipsComponent extends BaseComponent {
   private _movingChips: Chip[] = [];
 
-  public drop(board: Board, tweens: Phaser.Tweens.TweenManager): void {
+  public drop(board: Board, tweens: Phaser.Tweens.TweenManager, delay = 0): void {
     const movingChips: Chip[] = this._movingChips = [];
 
     for (const col of board) {
@@ -22,6 +22,7 @@ export class DropChipsComponent extends BaseComponent {
       y: this._getNewY,
       duration: 500,
       ease: 'Bounce.Out',
+      delay: delay,
       onComplete: this._onCompleteDrop.bind(this)
     });
   }

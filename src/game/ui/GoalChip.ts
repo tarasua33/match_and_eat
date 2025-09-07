@@ -12,12 +12,13 @@ export class GoalChip extends Phaser.GameObjects.Container {
 
     const sticker = this.scene.add.sprite(0, 0, "sticker");
     sticker.setOrigin(0.5, 0.5);
-    sticker.setScale(0.5, 0.5);
+    sticker.setScale(0.6, 0.6);
     sticker.setPosition(- bg.width / 2 + 15, bg.height / 2 - 15);
 
     const goalText = this._goalText = this.scene.add.text(sticker.x, sticker.y, "0", {
       fontFamily: 'SnowDream',
-      fontSize: '20px',
+      fontSize: '24px',
+      fontStyle: 'normal',
       color: '#FF0100'
     });
     goalText.setOrigin(0.5, 0.5);
@@ -25,6 +26,8 @@ export class GoalChip extends Phaser.GameObjects.Container {
     this.add(bg);
     this.add(sticker);
     this.add(goalText);
+
+    this.alpha = 0;
 
     this.scene.add.existing(this);
   }
@@ -34,6 +37,8 @@ export class GoalChip extends Phaser.GameObjects.Container {
     this._goalText.text = goal.toString();
 
     this.alpha = 1;
+    this.scaleX = 0;
+    this.scaleY = 0;
   }
 
   public setGoal(goal: number): void {

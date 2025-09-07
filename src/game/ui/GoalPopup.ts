@@ -1,3 +1,4 @@
+import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { CELL } from "../GameConfig";
 import { CHIPS } from "../models/BoardModel";
 import { LvlGoal } from "../models/LvlModel";
@@ -10,6 +11,8 @@ const POSITIONS = [
 ]
 
 export class GoalPopup extends Phaser.GameObjects.Container {
+  public readonly eventsBus = new EventBusComponent();
+
   private _goalsUi: GoalChip[] = [];
   private _lvlGoal!: Map<CHIPS, GoalChip>;
 
@@ -51,5 +54,25 @@ export class GoalPopup extends Phaser.GameObjects.Container {
       const goalUi = this._lvlGoal.get(type)!;
       goalUi.setGoal(goal);
     }
+  }
+
+  public show(): void {
+    const len = this._goalsUi.length;
+    let i = 0
+    for (const ui of this._goalsUi) {
+      i++
+      this.scene.tweens.add({
+        targets: ui,
+        scale: 1,
+        duration: 500,
+        delay: 250 * (i + 1),
+        ease: 'Back.easeOut',
+        onComplete: len === i ? this._onCompleteShow.bind(this) : undefined
+      });
+    }
+  }
+
+  private _onCompleteShow(): void {
+    this.eventsBus.emit(EVENTS.UI_READY);
   }
 }

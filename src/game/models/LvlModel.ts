@@ -2,7 +2,7 @@ import { CHIPS } from "./BoardModel";
 
 export type LvlGoal = { type: CHIPS, goal: number }[];
 const MAX_GOALS = 3;
-const BASE_GOAL = 98;
+const BASE_GOAL = 10;
 
 export class LvlModel {
   static instance: LvlModel

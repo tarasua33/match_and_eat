@@ -44,6 +44,20 @@ export class BoardComponent extends BaseComponent {
     this.boardCollectWinsComponent.eventsBus.on(EVENTS.CHIP_REMOVED, this._onChipRemoved, this);
   }
 
+  public playShowBoard(): void {
+    this.dropChipsComponent.eventsBus.once(EVENTS.CHIPS_DROPPED, this._onBoardShowed, this);
+    this.dropChipsComponent.drop(this._board, this._tweens, 0.5);
+  }
+
+  public _onBoardShowed(): void {
+    this.uiBoardEventsBus.once(EVENTS.UI_READY, this._startGame, this);
+    this.uiBoardEventsBus.emit(EVENTS.CHIPS_DROPPED);
+  }
+
+  private _startGame(): void {
+    this.findWins();
+  }
+
   public spawn(): void {
     const board: Board = this._board = [];
     const model = this._m3model.generateNewModel();
@@ -55,7 +69,7 @@ export class BoardComponent extends BaseComponent {
       for (let y = 0; y < model[x].length; y++) {
         if (model[x][y] !== CHIPS.LOCK) {
           const chip = this._chipsPool.get(0, 0, model[x][y]) as Chip;
-          chip.spawn(x, y, model[x][y]);
+          chip.spawnAbove(x, y, -(baseModel.HEIGHT - y), model[x][y]);
           board[x].push(chip);
 
           this._boardContainer.add(chip);
@@ -64,9 +78,6 @@ export class BoardComponent extends BaseComponent {
         }
       }
     }
-
-    // console.log(model);
-    this.findWins();
   }
 
   public findWins(): void {
