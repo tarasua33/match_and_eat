@@ -11,7 +11,7 @@ export class DropChipsComponent extends BaseComponent {
 
     for (const col of board) {
       for (const chip of col) {
-        if ((chip as Chip).isMoving) {
+        if (chip && (chip as Chip).isMoving) {
           movingChips.push(chip!);
         }
       }

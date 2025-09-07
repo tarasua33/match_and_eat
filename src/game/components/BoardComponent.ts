@@ -1,7 +1,7 @@
 import { EVENTS } from "../events/EventBusComponent";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
-import { baseModel, Match3Win } from "../models/BoardModel";
+import { baseModel, CHIPS, Match3Win } from "../models/BoardModel";
 import { BaseComponent } from "./BaseComponent";
 import { BoardCollectWinsComponent } from "./BoardCollectWinsComponent";
 import { DropChipsComponent } from "./DropChipsComponent";
@@ -42,7 +42,7 @@ export class BoardComponent extends BaseComponent {
   }
 
   public spawn(): void {
-    const board: Chip[][] = this._board = [];
+    const board: Board = this._board = [];
     const model = this._m3model.generateNewModel();
     this._m3model.model = model;
 
@@ -50,11 +50,15 @@ export class BoardComponent extends BaseComponent {
       board.push([]);
 
       for (let y = 0; y < model[x].length; y++) {
-        const chip = this._chipsPool.get(0, 0, model[x][y]) as Chip;
-        chip.spawn(x, y, model[x][y]);
-        board[x].push(chip);
+        if (model[x][y] !== CHIPS.LOCK) {
+          const chip = this._chipsPool.get(0, 0, model[x][y]) as Chip;
+          chip.spawn(x, y, model[x][y]);
+          board[x].push(chip);
 
-        this._boardContainer.add(chip);
+          this._boardContainer.add(chip);
+        } else {
+          board[x].push(undefined);
+        }
       }
     }
 

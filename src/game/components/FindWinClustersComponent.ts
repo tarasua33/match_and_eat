@@ -10,7 +10,7 @@ export class FindWinClustersComponent extends BaseComponent {
     for (let x = 0; x < cols; x++) {
       let count = 1;
       for (let y = 1; y < rows; y++) {
-        if (model[x][y] === model[x][y - 1] && model[x][y] !== CHIPS.EMPTY) {
+        if (model[x][y] === model[x][y - 1] && model[x][y] !== CHIPS.EMPTY && model[x][y] !== CHIPS.LOCK) {
           count++;
         } else {
           if (count >= MIN_CLUSTER_SIZE) {
@@ -36,7 +36,7 @@ export class FindWinClustersComponent extends BaseComponent {
     for (let y = 0; y < rows; y++) {
       let count = 1;
       for (let x = 1; x < cols; x++) {
-        if (model[x][y] === model[x - 1][y] && model[x][y] !== CHIPS.EMPTY) {
+        if (model[x][y] === model[x - 1][y] && model[x][y] !== CHIPS.EMPTY && model[x][y] !== CHIPS.LOCK) {
           count++;
         } else {
           if (count >= MIN_CLUSTER_SIZE) {

@@ -43,8 +43,10 @@ export class SwapComponent extends BaseComponent {
 
     for (let x = 0; x < board.length; x++) {
       for (let y = 0; y < board[x].length; y++) {
-        board[x][y]!.eventsBus.on(EVENTS.CHIP_POINTED, this._onPointed, this);
-        board[x][y]!.awaitSwap();
+        if (board[x][y]) {
+          board[x][y]!.eventsBus.on(EVENTS.CHIP_POINTED, this._onPointed, this);
+          board[x][y]!.awaitSwap();
+        }
       }
     }
 
@@ -157,8 +159,10 @@ export class SwapComponent extends BaseComponent {
     const board = this._board;
     for (let x = 0; x < board.length; x++) {
       for (let y = 0; y < board[x].length; y++) {
-        board[x][y]!.eventsBus.off(EVENTS.CHIP_POINTED, this._onPointed, this);
-        board[x][y]!.disableInput();
+        if (board[x][y]) {
+          board[x][y]!.eventsBus.off(EVENTS.CHIP_POINTED, this._onPointed, this);
+          board[x][y]!.disableInput();
+        }
       }
     }
 

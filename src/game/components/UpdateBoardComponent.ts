@@ -39,7 +39,7 @@ export class UpdateBoardComponent extends BaseComponent {
 
   private _getFallenChip(x: number, startY: number, model: CHIPS[][]): GridPosition | undefined {
     for (let y = startY; y >= 0; y--) {
-      if (model[x][y] !== CHIPS.EMPTY) {
+      if (model[x][y] !== CHIPS.EMPTY && model[x][y] !== CHIPS.LOCK) {
         return { x, y };
       }
     }

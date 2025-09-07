@@ -1,4 +1,7 @@
+import { MASKS } from "./BoardModelMasks";
+
 export enum CHIPS {
+  LOCK = "LOCK",
   EMPTY = "EMPTY",
   C1 = "chip_1",
   C2 = "chip_2",
@@ -48,6 +51,16 @@ export class BoardModel {
       result.push([]);
       for (let y = 0; y < HEIGHT; y++) {
         result[x].push(allChips[Math.floor(Math.random() * allChips.length)])
+      }
+    }
+
+    const mask = MASKS[Math.floor(Math.random() * MASKS.length)];
+
+    for (let x = 0; x < mask.length; x++) {
+      for (let y = 0; y < mask[x].length; y++) {
+        if (mask[x][y] === CHIPS.LOCK) {
+          result[x][y] = mask[x][y];
+        }
       }
     }
 
