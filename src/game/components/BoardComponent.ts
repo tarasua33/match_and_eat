@@ -1,4 +1,4 @@
-import { EVENTS } from "../events/EventBusComponent";
+import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
 import { baseModel, CHIPS, Match3Win } from "../models/BoardModel";
@@ -17,6 +17,7 @@ export class BoardComponent extends BaseComponent {
   public readonly updateBoardComponent = new UpdateBoardComponent();
   public readonly dropChipsComponent = new DropChipsComponent();
   public readonly swapComponent!: SwapComponent;
+  public readonly uiBoardEventsBus: EventBusComponent;
   private _tweens: Phaser.Tweens.TweenManager;
   // private _input: Phaser.Input.InputPlugin;
   private _chipsPool: Phaser.GameObjects.Group;
@@ -26,6 +27,7 @@ export class BoardComponent extends BaseComponent {
   // private _bgBoardVfx: BgTile[][];
 
   constructor(
+    uiBoardEventsBus: EventBusComponent,
     chipsPool: Phaser.GameObjects.Group,
     boardContainer: Phaser.GameObjects.Container,
     bgBoardVfx: BgTile[][],
@@ -33,6 +35,7 @@ export class BoardComponent extends BaseComponent {
     input: Phaser.Input.InputPlugin
   ) {
     super();
+    this.uiBoardEventsBus = uiBoardEventsBus;
     this._chipsPool = chipsPool;
     this._boardContainer = boardContainer;
     this._tweens = tweens;
@@ -115,5 +118,7 @@ export class BoardComponent extends BaseComponent {
     this._chipsPool.killAndHide(chip);
     chip.active = false;
     chip.visible = false;
+
+    this.uiBoardEventsBus.emit(EVENTS.CHIP_REMOVED, chip.typeID);
   }
 }

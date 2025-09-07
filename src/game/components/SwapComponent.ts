@@ -135,18 +135,18 @@ export class SwapComponent extends BaseComponent {
       const board = this._board;
 
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold) {
-        if (dx > 0) {
+        if (board[draggedChip.gridX + 1] && board[draggedChip.gridX + 1][draggedChip.gridY] && dx > 0) {
           this._trySwap(draggedChip, board[draggedChip.gridX + 1][draggedChip.gridY]!);
-        } else {
+        } else if (board[draggedChip.gridX - 1] && board[draggedChip.gridX - 1][draggedChip.gridY]) {
           this._trySwap(draggedChip, board[draggedChip.gridX - 1][draggedChip.gridY]!)
         }
 
         this._draggedChip = undefined;
       }
       else if (Math.abs(dy) > threshold) {
-        if (dy > 0) {
+        if (board[draggedChip.gridX][draggedChip.gridY + 1] && dy > 0) {
           this._trySwap(draggedChip, board[draggedChip.gridX][draggedChip.gridY + 1]!);
-        } else {
+        } else if (board[draggedChip.gridX][draggedChip.gridY - 1]) {
           this._trySwap(draggedChip, board[draggedChip.gridX][draggedChip.gridY - 1]!);
         }
 

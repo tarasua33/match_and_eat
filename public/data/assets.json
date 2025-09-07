@@ -808,5 +808,25 @@
         "url": "explosion_20.png"
       }
     ]
+  },
+  {
+    "path": "assets/ui",
+    "files": [
+      {
+        "type": "image",
+        "key": "popup_buble",
+        "url": "inGameBankBalance_bar.png"
+      },
+      {
+        "type": "image",
+        "key": "popup_header",
+        "url": "popup_header.png"
+      },
+      {
+        "type": "image",
+        "key": "sticker",
+        "url": "inGame_counter.png"
+      }
+    ]
   }
 ]

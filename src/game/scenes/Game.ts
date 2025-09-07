@@ -4,6 +4,9 @@ import { BoardComponent } from '../components/BoardComponent';
 import { Chip } from '../gameObjects/Chip';
 import { BgTile } from '../gameObjects/BgTile';
 import { baseModel, MAX_CHIPS } from '../models/BoardModel';
+import { GoalPopup } from '../ui/GoalPopup';
+import { UiComponent } from '../components/UiComponent';
+import { EventBusComponent } from '../events/EventBusComponent';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -51,14 +54,29 @@ export class Game extends Scene {
 
   public initGame(): void {
     const boardContainer = this.add.container();
-    boardContainer.setPosition(0, CELL.height);
+    boardContainer.setPosition(0, CELL.height / 2);
     const bgBoardVfx = this._createBoardBgVfx(boardContainer);
     const chipsPool = this.add.group({
       classType: Chip,
       maxSize: MAX_CHIPS,
     });
 
-    const boardComponent = new BoardComponent(chipsPool, boardContainer, bgBoardVfx, this.tweens, this.input);
+    const uiGoalPopup = new GoalPopup(this);
+    uiGoalPopup.setPosition(CELL.width * 2, CELL.height * (baseModel.HEIGHT + 1) - 15);
+
+    const uiBoardEventsBus = new EventBusComponent();
+
+    const uiComponent = new UiComponent(uiBoardEventsBus, uiGoalPopup);
+    uiComponent.playNewLvl();
+
+    const boardComponent = new BoardComponent(
+      uiBoardEventsBus,
+      chipsPool,
+      boardContainer,
+      bgBoardVfx,
+      this.tweens,
+      this.input
+    );
     boardComponent.spawn();
 
     // const img = this.add.image(30, 30, "explosion_yellow_8");

@@ -67,5 +67,8 @@ export class UpdateBoardComponent extends BaseComponent {
         }
       }
     }
+
+    console.log(model);
+    console.log(board);
   }
 }
