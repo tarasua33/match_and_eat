@@ -1,51 +1,17 @@
 import { EVENTS } from "../events/EventBusComponent";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
+import { baseModel, Match3Win } from "../models/BoardModel";
+import { BaseComponent } from "./BaseComponent";
 import { BoardCollectWinsComponent } from "./BoardCollectWinsComponent";
 import { DropChipsComponent } from "./DropChipsComponent";
 import { FindWinClustersComponent } from "./FindWinClustersComponent";
 import { SwapComponent } from "./SwapComponent";
 import { UpdateBoardComponent } from "./UpdateBoardComponent";
 
-export enum CHIPS {
-  EMPTY = "EMPTY",
-  C1 = "chip_1",
-  C2 = "chip_2",
-  C3 = "chip_3",
-  C4 = "chip_4",
-  C5 = "chip_5",
-  C6 = "chip_6",
-  C7 = "chip_7",
-};
-
-const allChips = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6, CHIPS.C7];
-
-const model = [
-  [CHIPS.C1, CHIPS.C1, CHIPS.C2, CHIPS.C2, CHIPS.C3, CHIPS.C3,],
-  [CHIPS.C2, CHIPS.C1, CHIPS.C1, CHIPS.C4, CHIPS.C5, CHIPS.C6,],
-  [CHIPS.C7, CHIPS.C1, CHIPS.C2, CHIPS.C5, CHIPS.C6, CHIPS.C7,],
-  [CHIPS.C2, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6,],
-  [CHIPS.C1, CHIPS.C1, CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4,],
-  [CHIPS.C5, CHIPS.C6, CHIPS.C7, CHIPS.C1, CHIPS.C2, CHIPS.C3,],
-];
-
-export const baseModel = {
-  WIDTH: 6,
-  HEIGHT: 6
-}
-
-export interface Match3Win {
-  positions: GridPosition[];
-  id: CHIPS;
-}
-
-export interface GridPosition {
-  x: number, y: number
-}
-
 export type Board = (Chip | undefined)[][];
 
-export class BoardComponent {
+export class BoardComponent extends BaseComponent {
   public readonly boardCollectWinsComponent = new BoardCollectWinsComponent();
   public readonly findWinClustersComponent = new FindWinClustersComponent();
   public readonly updateBoardComponent = new UpdateBoardComponent();
@@ -66,10 +32,10 @@ export class BoardComponent {
     tweens: Phaser.Tweens.TweenManager,
     input: Phaser.Input.InputPlugin
   ) {
+    super();
     this._chipsPool = chipsPool;
     this._boardContainer = boardContainer;
     this._tweens = tweens;
-    // this._bgBoardVfx = bgBoardVfx;
     this.swapComponent = new SwapComponent(input, tweens, bgBoardVfx);
 
     this.boardCollectWinsComponent.eventsBus.on(EVENTS.CHIP_REMOVED, this._onChipRemoved, this);
@@ -77,6 +43,8 @@ export class BoardComponent {
 
   public spawn(): void {
     const board: Chip[][] = this._board = [];
+    const model = this._m3model.generateNewModel();
+    this._m3model.model = model;
 
     for (let x = 0; x < model.length; x++) {
       board.push([]);
@@ -90,12 +58,12 @@ export class BoardComponent {
       }
     }
 
-    console.log(model);
+    // console.log(model);
     this.findWins();
   }
 
   public findWins(): void {
-    const wins = this.findWinClustersComponent.getWinClusters(model, baseModel.WIDTH, baseModel.HEIGHT);
+    const wins = this.findWinClustersComponent.getWinClusters(this._m3model.model, baseModel.WIDTH, baseModel.HEIGHT);
 
     if (wins.length > 0) {
       this._collectWinSectors(wins);
@@ -106,6 +74,7 @@ export class BoardComponent {
   }
 
   private _onTrySwap(): void {
+    const model = this._m3model.model;
     const wins = this.findWinClustersComponent.getWinClusters(model, baseModel.WIDTH, baseModel.HEIGHT);
 
     if (wins.length > 0) {
@@ -118,7 +87,7 @@ export class BoardComponent {
 
   private _awaitSwap(): void {
     this.swapComponent.eventsBus.once(EVENTS.CHIPS_SWAPPED, this._onTrySwap, this);
-    this.swapComponent.awaitSwap(this._board, model);
+    this.swapComponent.awaitSwap(this._board, this._m3model.model);
   }
 
   private _collectWinSectors(wins: Match3Win[]): void {
@@ -128,8 +97,9 @@ export class BoardComponent {
   }
 
   private _onCollected(): void {
-    this.updateBoardComponent.updateModel(this._wins, model, this._board);
-    const extraChipsModel = this.updateBoardComponent.generateRandomModel(baseModel.WIDTH, baseModel.HEIGHT, allChips);
+    const model = this._m3model.model;
+    this.updateBoardComponent.updateModel(this._wins, this._m3model.model, this._board);
+    const extraChipsModel = this._m3model.generateNewModel();
     this.updateBoardComponent.spawnNewChips(this._chipsPool, model, extraChipsModel, this._board, this._boardContainer);
 
     this.dropChipsComponent.eventsBus.once(EVENTS.CHIPS_DROPPED, this.findWins, this)

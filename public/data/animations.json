@@ -9,6 +9,18 @@
     "frameRate": 30,
     "repeat": 0,
     "len": 21,
+    "type": "red"
+  },
+  {
+    "frameRate": 30,
+    "repeat": 0,
+    "len": 21,
+    "type": "yellow"
+  },
+  {
+    "frameRate": 30,
+    "repeat": 0,
+    "len": 21,
     "type": "cyan"
   },
   {
@@ -21,24 +33,12 @@
     "frameRate": 30,
     "repeat": 0,
     "len": 21,
-    "type": "pink"
-  },
-  {
-    "frameRate": 30,
-    "repeat": 0,
-    "len": 21,
     "type": "purple"
   },
   {
     "frameRate": 30,
     "repeat": 0,
     "len": 21,
-    "type": "red"
-  },
-  {
-    "frameRate": 30,
-    "repeat": 0,
-    "len": 21,
-    "type": "yellow"
+    "type": "pink"
   }
 ]

@@ -1,9 +1,9 @@
-import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
+import { EVENTS } from "../events/EventBusComponent";
 import { Chip } from "../gameObjects/Chip";
+import { BaseComponent } from "./BaseComponent";
 import { Board } from "./BoardComponent";
 
-export class DropChipsComponent {
-  public readonly eventsBus = new EventBusComponent();
+export class DropChipsComponent extends BaseComponent {
   private _movingChips: Chip[] = [];
 
   public drop(board: Board, tweens: Phaser.Tweens.TweenManager): void {

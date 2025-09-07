@@ -1,10 +1,11 @@
-import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
+import { EVENTS } from "../events/EventBusComponent";
 import { Chip } from "../gameObjects/Chip";
+import { BaseComponent } from "./BaseComponent";
 
-export class ChipsAnimationComponent {
-  public readonly eventsBus = new EventBusComponent();
+export class ChipsAnimationComponent extends BaseComponent {
   private _chip: Chip;
   constructor(chip: Chip) {
+    super();
     this._chip = chip;
   }
 

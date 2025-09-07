@@ -1,12 +1,12 @@
-import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
+import { EVENTS } from "../events/EventBusComponent";
 import { CELL } from "../GameConfig";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
-import { Board, CHIPS } from "./BoardComponent";
+import { CHIPS } from "../models/BoardModel";
+import { BaseComponent } from "./BaseComponent";
+import { Board } from "./BoardComponent";
 
-export class SwapComponent {
-  public readonly eventsBus = new EventBusComponent();
-
+export class SwapComponent extends BaseComponent {
   private _input: Phaser.Input.InputPlugin;
   private _tweens: Phaser.Tweens.TweenManager;
   private _draggedChip: Chip | undefined;
@@ -25,6 +25,7 @@ export class SwapComponent {
     bgBoardVfx: BgTile[][]
 
   ) {
+    super();
     this._tweens = tweens;
     this._input = input;
     this._bgBoardVfx = bgBoardVfx;

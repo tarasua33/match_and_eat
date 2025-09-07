@@ -1,8 +1,9 @@
 import { Scene } from 'phaser';
-import { CELL, GAME_DIMENSIONS, MAX_CHIPS } from '../GameConfig';
-import { baseModel, BoardComponent } from '../components/BoardComponent';
+import { CELL, GAME_DIMENSIONS } from '../GameConfig';
+import { BoardComponent } from '../components/BoardComponent';
 import { Chip } from '../gameObjects/Chip';
 import { BgTile } from '../gameObjects/BgTile';
+import { baseModel, MAX_CHIPS } from '../models/BoardModel';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -50,7 +51,7 @@ export class Game extends Scene {
 
   public initGame(): void {
     const boardContainer = this.add.container();
-    boardContainer.setPosition(CELL.width, CELL.height);
+    boardContainer.setPosition(0, CELL.height);
     const bgBoardVfx = this._createBoardBgVfx(boardContainer);
     const chipsPool = this.add.group({
       classType: Chip,

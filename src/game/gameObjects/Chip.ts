@@ -1,7 +1,7 @@
-import { CHIPS } from "../components/BoardComponent";
 import { ChipsAnimationComponent } from "../components/ChipsAnimationComponent";
 import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { CELL } from "../GameConfig";
+import { CHIPS } from "../models/BoardModel";
 
 export class Chip extends Phaser.GameObjects.Sprite {
   public readonly animationComponent: ChipsAnimationComponent;

@@ -1,10 +1,10 @@
-import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
+import { EVENTS } from "../events/EventBusComponent";
 import { Chip } from "../gameObjects/Chip";
-import { Board, Match3Win } from "./BoardComponent";
+import { Match3Win } from "../models/BoardModel";
+import { BaseComponent } from "./BaseComponent";
+import { Board } from "./BoardComponent";
 
-export class BoardCollectWinsComponent {
-  public readonly eventsBus = new EventBusComponent();
-
+export class BoardCollectWinsComponent extends BaseComponent {
   private _winChipsCounter = 0;
 
   public collectWinSectors(board: Board, wins: Match3Win[]): void {

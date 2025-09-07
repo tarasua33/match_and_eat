@@ -1,7 +1,7 @@
-import { MIN_CLUSTER_SIZE } from "../GameConfig";
-import { CHIPS, Match3Win } from "./BoardComponent";
+import { CHIPS, Match3Win, MIN_CLUSTER_SIZE } from "../models/BoardModel";
+import { BaseComponent } from "./BaseComponent";
 
-export class FindWinClustersComponent {
+export class FindWinClustersComponent extends BaseComponent {
   public getWinClusters(model: CHIPS[][], width: number, height: number): Match3Win[] {
     const rows = height;
     const cols = width;

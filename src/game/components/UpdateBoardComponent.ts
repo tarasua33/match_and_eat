@@ -1,7 +1,9 @@
 import { Chip } from "../gameObjects/Chip";
-import { Board, CHIPS, GridPosition, Match3Win } from "./BoardComponent";
+import { CHIPS, GridPosition, Match3Win } from "../models/BoardModel";
+import { BaseComponent } from "./BaseComponent";
+import { Board } from "./BoardComponent";
 
-export class UpdateBoardComponent {
+export class UpdateBoardComponent extends BaseComponent {
   updateModel(wins: Match3Win[], model: CHIPS[][], board: Board): void {
     for (const win of wins) {
       for (const { x, y } of win.positions) {
@@ -41,18 +43,6 @@ export class UpdateBoardComponent {
         return { x, y };
       }
     }
-  }
-
-  public generateRandomModel(width: number, height: number, strip: CHIPS[]): CHIPS[][] {
-    const result: CHIPS[][] = [];
-    for (let x = 0; x < width; x++) {
-      result.push([]);
-      for (let y = 0; y < height; y++) {
-        result[x].push(strip[Math.floor(Math.random() * strip.length)])
-      }
-    }
-
-    return result;
   }
 
   public spawnNewChips(
