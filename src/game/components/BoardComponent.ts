@@ -1,7 +1,7 @@
 import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
-import { baseModel, CHIPS, Match3Win } from "../models/BoardModel";
+import { baseModel, Match3Win } from "../models/BoardModel";
 import { BaseComponent } from "./BaseComponent";
 import { BoardCollectWinsComponent } from "./BoardCollectWinsComponent";
 import { DropChipsComponent } from "./DropChipsComponent";
@@ -24,7 +24,6 @@ export class BoardComponent extends BaseComponent {
   private _boardContainer: Phaser.GameObjects.Container;
   private _board: Board = [];
   private _wins: Match3Win[] = [];
-  // private _bgBoardVfx: BgTile[][];
 
   constructor(
     uiBoardEventsBus: EventBusComponent,
@@ -63,21 +62,7 @@ export class BoardComponent extends BaseComponent {
     const model = this._m3model.generateNewModel();
     this._m3model.model = model;
 
-    for (let x = 0; x < model.length; x++) {
-      board.push([]);
-
-      for (let y = 0; y < model[x].length; y++) {
-        if (model[x][y] !== CHIPS.LOCK) {
-          const chip = this._chipsPool.get(0, 0, model[x][y]) as Chip;
-          chip.spawnAbove(x, y, -(baseModel.HEIGHT - y), model[x][y]);
-          board[x].push(chip);
-
-          this._boardContainer.add(chip);
-        } else {
-          board[x].push(undefined);
-        }
-      }
-    }
+    this.updateBoardComponent.spawn(this._chipsPool, this._boardContainer, board, model);
   }
 
   public findWins(): void {
@@ -117,7 +102,7 @@ export class BoardComponent extends BaseComponent {
   private _onCollected(): void {
     const model = this._m3model.model;
     this.updateBoardComponent.updateModel(this._wins, this._m3model.model, this._board);
-    const extraChipsModel = this._m3model.generateNewModel();
+    const extraChipsModel = this._m3model.generateNewModel(false);
     this.updateBoardComponent.spawnNewChips(this._chipsPool, model, extraChipsModel, this._board, this._boardContainer);
 
     this.dropChipsComponent.eventsBus.once(EVENTS.CHIPS_DROPPED, this.findWins, this)

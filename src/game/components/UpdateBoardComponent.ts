@@ -1,9 +1,32 @@
 import { Chip } from "../gameObjects/Chip";
-import { CHIPS, GridPosition, Match3Win } from "../models/BoardModel";
+import { baseModel, CHIPS, GridPosition, Match3Win } from "../models/BoardModel";
 import { BaseComponent } from "./BaseComponent";
 import { Board } from "./BoardComponent";
 
 export class UpdateBoardComponent extends BaseComponent {
+  public spawn(
+    chipsPool: Phaser.GameObjects.Group,
+    boardContainer: Phaser.GameObjects.Container,
+    board: Board,
+    model: CHIPS[][],
+  ): void {
+    for (let x = 0; x < model.length; x++) {
+      board.push([]);
+
+      for (let y = 0; y < model[x].length; y++) {
+        if (model[x][y] !== CHIPS.LOCK) {
+          const chip = chipsPool.get(0, 0, model[x][y]) as Chip;
+          chip.spawnAbove(x, y, -(baseModel.HEIGHT - y), model[x][y]);
+          board[x].push(chip);
+
+          boardContainer.add(chip);
+        } else {
+          board[x].push(undefined);
+        }
+      }
+    }
+  }
+
   updateModel(wins: Match3Win[], model: CHIPS[][], board: Board): void {
     for (const win of wins) {
       for (const { x, y } of win.positions) {

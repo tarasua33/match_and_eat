@@ -44,7 +44,7 @@ export class BoardModel {
 
   private _model: CHIPS[][];
 
-  public generateNewModel(): CHIPS[][] {
+  public generateNewModel(isInitial = true): CHIPS[][] {
     const result: CHIPS[][] = [];
     const { WIDTH, HEIGHT } = baseModel;
     for (let x = 0; x < WIDTH; x++) {
@@ -54,12 +54,14 @@ export class BoardModel {
       }
     }
 
-    const mask = MASKS[Math.floor(Math.random() * MASKS.length)];
+    if (isInitial) {
+      const mask = MASKS[Math.floor(Math.random() * MASKS.length)];
 
-    for (let x = 0; x < mask.length; x++) {
-      for (let y = 0; y < mask[x].length; y++) {
-        if (mask[x][y] === CHIPS.LOCK) {
-          result[x][y] = mask[x][y];
+      for (let x = 0; x < mask.length; x++) {
+        for (let y = 0; y < mask[x].length; y++) {
+          if (mask[x][y] === CHIPS.LOCK) {
+            result[x][y] = mask[x][y];
+          }
         }
       }
     }
