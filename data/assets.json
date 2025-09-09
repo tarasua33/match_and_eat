@@ -1,6 +1,6 @@
 [
   {
-    "path": "match_and_eat/assets/chips",
+    "path": "assets/chips",
     "files": [
       {
         "type": "image",
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Blue",
+    "path": "assets/explosions/Blue",
     "files": [
       {
         "type": "image",
@@ -150,7 +150,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Cyan",
+    "path": "assets/explosions/Cyan",
     "files": [
       {
         "type": "image",
@@ -260,7 +260,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Green",
+    "path": "assets/explosions/Green",
     "files": [
       {
         "type": "image",
@@ -370,7 +370,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Pink",
+    "path": "assets/explosions/Pink",
     "files": [
       {
         "type": "image",
@@ -480,7 +480,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Purple",
+    "path": "assets/explosions/Purple",
     "files": [
       {
         "type": "image",
@@ -590,7 +590,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Red",
+    "path": "assets/explosions/Red",
     "files": [
       {
         "type": "image",
@@ -700,7 +700,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/explosions/Yellow",
+    "path": "assets/explosions/Yellow",
     "files": [
       {
         "type": "image",
@@ -810,7 +810,7 @@
     ]
   },
   {
-    "path": "match_and_eat/assets/ui",
+    "path": "assets/ui",
     "files": [
       {
         "type": "image",
