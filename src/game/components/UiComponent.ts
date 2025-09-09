@@ -8,7 +8,7 @@ import { BaseComponent } from "./BaseComponent";
 export class UiComponent extends BaseComponent {
   public readonly uiBoardEventsBus: EventBusComponent;
   private _introScreen: IntroScreen;
-  private _shuffleButton: ShuffleButton
+  private _shuffleButton: ShuffleButton;
 
   private _goalPopup: GoalPopup;
   constructor(
@@ -64,15 +64,17 @@ export class UiComponent extends BaseComponent {
   public _playNewLvl(): void {
     this._lvlModel.getNewGoals();
 
-    this.uiBoardEventsBus.once(EVENTS.CHIPS_DROPPED, this._showGoalsUI, this);
+    this.uiBoardEventsBus.once(EVENTS.CHIPS_DROPPED, this._showUI, this);
     this.uiBoardEventsBus.emit(EVENTS.UI_CHOOSE_DIF);
   }
 
-  private _showGoalsUI(): void {
+  private _showUI(): void {
     const goalPopup = this._goalPopup;
     goalPopup.eventsBus.once(EVENTS.UI_READY, this._goalUIReady, this);
     this._goalPopup.resetGoals(this._lvlModel.goals);
-    goalPopup.show()
+    goalPopup.show();
+
+    this._shuffleButton.show();
   }
 
   private _goalUIReady(): void {
@@ -92,7 +94,7 @@ export class UiComponent extends BaseComponent {
     // uiBoardEventsBus.on(EVENTS.CHIP_REMOVED, this._chipCollected, this);
     // uiBoardEventsBus.on(EVENTS.AWAIT_USER_ACTION, this._waitUserAction, this);
     uiBoardEventsBus.off(EVENTS.USER_ACTION_SWAP, this._onAction, this);
-    uiBoardEventsBus.off(EVENTS.CHIPS_DROPPED, this._showGoalsUI, this);
+    uiBoardEventsBus.off(EVENTS.CHIPS_DROPPED, this._showUI, this);
 
     const goalPopup = this._goalPopup;
     goalPopup.eventsBus.off(EVENTS.UI_READY, this._goalUIReady, this);
@@ -104,5 +106,6 @@ export class UiComponent extends BaseComponent {
     shuffleButton.eventsBus.off(EVENTS.SHUFFLE, this._onShuffle, this);
 
     this._goalPopup.reset();
+    this._shuffleButton.hide();
   }
 }

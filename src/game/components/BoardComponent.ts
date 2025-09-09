@@ -21,7 +21,6 @@ export class BoardComponent extends BaseComponent {
   public readonly uiBoardEventsBus: EventBusComponent;
   public readonly shuffleComponent = new ShuffleComponent();
   private _tweens: Phaser.Tweens.TweenManager;
-  // private _input: Phaser.Input.InputPlugin;
   private _chipsPool: Phaser.GameObjects.Group;
   private _boardContainer: Phaser.GameObjects.Container;
   private _board: Board = [];

@@ -1,12 +1,14 @@
 import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 
 export class ShuffleButton extends Phaser.GameObjects.Image {
+  private _baseScale = 2;
   public readonly eventsBus = new EventBusComponent();
 
   constructor(...arr: ConstructorParameters<typeof Phaser.GameObjects.Image>) {
     super(...arr);
 
-    this.setScale(2);
+    this.setScale(this._baseScale);
+    this.alpha = 0;
   }
 
   public makeActive(): void {
@@ -37,5 +39,22 @@ export class ShuffleButton extends Phaser.GameObjects.Image {
       yoyo: true,
       ease: 'Back.easeOut'
     });
+  }
+
+  public show(): void {
+    this.scale = this._baseScale * 2;
+
+    this.scene.tweens.add({
+      targets: this,
+      scale: this._baseScale,
+      alpha: 1,
+      duration: 250,
+      ease: 'Bounce.Out',
+      delay: 500
+    });
+  }
+
+  public hide(): void {
+    this.alpha = 0
   }
 }
