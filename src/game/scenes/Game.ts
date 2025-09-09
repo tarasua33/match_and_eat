@@ -23,13 +23,6 @@ export class Game extends Scene {
     this.camera = this.cameras.main;
     // this.camera.setBackgroundColor(0x00ff00);
 
-    // this.msg_text = this.add.text(this.scale.width / 2, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-    //   fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-    //   stroke: '#000000', strokeThickness: 8,
-    //   align: 'center'
-    // });
-    // this.msg_text.setOrigin(0.5);
-
     this.scale.on('resize', this.resize, this);
     this.resize({ width: window.innerWidth, height: window.innerHeight });
 

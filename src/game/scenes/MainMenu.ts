@@ -12,18 +12,34 @@ export class MainMenu extends Scene {
   create() {
     // this.background = this.add.image(512, 384, 'background');
 
-    this.logo = this.add.image(512, 300, 'logo');
+    const logo = this.logo = this.add.image(this.scale.width / 2, this.scale.height / 2, 'logo');
+    logo.alpha = 0;
+    logo.scale = 5;
 
-    this.title = this.add.text(512, 460, 'Main Menu', {
-      fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-      stroke: '#000000', strokeThickness: 8,
-      align: 'center'
-    }).setOrigin(0.5);
-
-    this.input.once('pointerdown', () => {
-
-      this.scene.start('Game');
-
+    this.tweens.add({
+      targets: logo,
+      scale: 0.5,
+      alpha: 1,
+      duration: 1500,
+      ease: 'Bounce.Out',
+      delay: 250,
+      onComplete: this._onShowed.bind(this)
     });
+  }
+
+  private _onShowed(): void {
+    this.tweens.add({
+      targets: this.logo,
+      scale: 5,
+      alpha: 0,
+      duration: 500,
+      ease: 'Sine.Out',
+      delay: 500,
+      onComplete: this._onHide.bind(this)
+    });
+  }
+
+  private _onHide(): void {
+    this.scene.start('Game');
   }
 }
