@@ -13,19 +13,23 @@ const POSITIONS = [
 export class GoalPopup extends Phaser.GameObjects.Container {
   public readonly eventsBus = new EventBusComponent();
 
+  private _buble!: Phaser.GameObjects.Sprite;
+  private _header!: Phaser.GameObjects.Sprite;
   private _goalsUi: GoalChip[] = [];
   private _lvlGoal!: Map<CHIPS, GoalChip>;
 
   constructor(...arr: ConstructorParameters<typeof Phaser.GameObjects.Container>) {
     super(...arr);
 
-    const buble = this.scene.add.sprite(0, 0, "popup_buble");
+    const buble = this._buble = this.scene.add.sprite(0, 0, "popup_buble");
     buble.setOrigin(0.5, 0);
     buble.setScale(4, 3);
+    buble.alpha = 0;
     this.add(buble);
 
     const header = this.scene.add.sprite(0, 5, "popup_header");
-    header.setOrigin(0.5, 0.5);
+    header.alpha = 0,
+      header.setOrigin(0.5, 0.5);
     header.setScale(0.9, 1);
     this.add(header);
 
@@ -70,6 +74,13 @@ export class GoalPopup extends Phaser.GameObjects.Container {
         onComplete: len === i ? this._onCompleteShow.bind(this) : undefined
       });
     }
+
+    this.scene.tweens.add({
+      targets: [this._buble, this._header],
+      alpha: 1,
+      duration: 250,
+      ease: 'Sine.easeInOut'
+    })
   }
 
   private _onCompleteShow(): void {

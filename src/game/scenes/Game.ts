@@ -3,15 +3,15 @@ import { CELL, GAME_DIMENSIONS } from '../GameConfig';
 import { BoardComponent } from '../components/BoardComponent';
 import { Chip } from '../gameObjects/Chip';
 import { BgTile } from '../gameObjects/BgTile';
-import { baseModel, MAX_CHIPS } from '../models/BoardModel';
+import { BASE_MODEL, MAX_CHIPS } from '../models/BoardModel';
 import { GoalPopup } from '../ui/GoalPopup';
 import { UiComponent } from '../components/UiComponent';
 import { EventBusComponent } from '../events/EventBusComponent';
+import IntroScreen from '../ui/IntroScreen';
+import { ShuffleButton } from '../ui/ShuffleButton';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
-  background: Phaser.GameObjects.Image;
-  msg_text: Phaser.GameObjects.Text;
 
   constructor() {
     super('Game');
@@ -20,9 +20,6 @@ export class Game extends Scene {
   create() {
     this.camera = this.cameras.main;
     // this.camera.setBackgroundColor(0x00ff00);
-
-    const border = this.add.rectangle(0, 0, GAME_DIMENSIONS.width, GAME_DIMENSIONS.height, 0xffffff);
-    border.setOrigin(0);
 
     // this.msg_text = this.add.text(this.scale.width / 2, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
     //   fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
@@ -40,6 +37,7 @@ export class Game extends Scene {
   public initGame(): void {
     const boardContainer = this.add.container();
     boardContainer.setPosition(0, CELL.height / 2);
+
     const bgBoardVfx = this._createBoardBgVfx(boardContainer);
     const chipsPool = this.add.group({
       classType: Chip,
@@ -47,12 +45,19 @@ export class Game extends Scene {
     });
 
     const uiGoalPopup = new GoalPopup(this);
-    uiGoalPopup.setPosition(CELL.width * 2, CELL.height * (baseModel.HEIGHT + 1) - 15);
+    uiGoalPopup.setPosition(CELL.width * 2, CELL.height * (BASE_MODEL.HEIGHT + 1) - 15);
+
+    const shuffleButton = new ShuffleButton(this, 0, 0, "button_shuffle");
+    shuffleButton.setPosition(CELL.width * 6, CELL.height * (BASE_MODEL.HEIGHT + 2) - 15);
+    this.add.existing(shuffleButton);
+
+    const introScreen = new IntroScreen(this);
+    introScreen.setPosition(GAME_DIMENSIONS.width / 2, GAME_DIMENSIONS.width / 2);
 
     const uiBoardEventsBus = new EventBusComponent();
 
-    const uiComponent = new UiComponent(uiBoardEventsBus, uiGoalPopup);
-    uiComponent.playNewLvl();
+    const uiComponent = new UiComponent(uiBoardEventsBus, uiGoalPopup, introScreen, shuffleButton);
+    uiComponent.startGame();
 
     const boardComponent = new BoardComponent(
       uiBoardEventsBus,
@@ -62,15 +67,11 @@ export class Game extends Scene {
       this.tweens,
       this.input
     );
-    boardComponent.spawn();
-    boardComponent.playShowBoard();
-
-    // const img = this.add.image(30, 30, "explosion_yellow_8");
-    // const anim = this.add.
+    boardComponent.startGame();
   }
 
   private _createBoardBgVfx(container: Phaser.GameObjects.Container): BgTile[][] {
-    const { WIDTH, HEIGHT } = baseModel;
+    const { WIDTH, HEIGHT } = BASE_MODEL;
     const result: BgTile[][] = [];
     for (let x = 0; x < WIDTH; x++) {
       result.push([]);

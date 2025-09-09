@@ -19,6 +19,10 @@ export class Chip extends Phaser.GameObjects.Sprite {
     // this.setOrigin()
   }
 
+  public get dropPositionX(): number {
+    return CELL.width / 2 + this._gridX * CELL.width;
+  }
+
   public get dropPositionY(): number {
     return CELL.height / 2 + this._gridY * CELL.height;
   }

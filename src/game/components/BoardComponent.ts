@@ -1,11 +1,12 @@
 import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
-import { baseModel, Match3Win } from "../models/BoardModel";
+import { BASE_MODEL, Match3Win } from "../models/BoardModel";
 import { BaseComponent } from "./BaseComponent";
 import { BoardCollectWinsComponent } from "./BoardCollectWinsComponent";
 import { DropChipsComponent } from "./DropChipsComponent";
 import { FindWinClustersComponent } from "./FindWinClustersComponent";
+import { ShuffleComponent } from "./ShuffleComponent";
 import { SwapComponent } from "./SwapComponent";
 import { UpdateBoardComponent } from "./UpdateBoardComponent";
 
@@ -18,6 +19,7 @@ export class BoardComponent extends BaseComponent {
   public readonly dropChipsComponent = new DropChipsComponent();
   public readonly swapComponent!: SwapComponent;
   public readonly uiBoardEventsBus: EventBusComponent;
+  public readonly shuffleComponent = new ShuffleComponent();
   private _tweens: Phaser.Tweens.TweenManager;
   // private _input: Phaser.Input.InputPlugin;
   private _chipsPool: Phaser.GameObjects.Group;
@@ -43,7 +45,16 @@ export class BoardComponent extends BaseComponent {
     this.boardCollectWinsComponent.eventsBus.on(EVENTS.CHIP_REMOVED, this._onChipRemoved, this);
   }
 
-  public playShowBoard(): void {
+  public startGame(): void {
+    this.uiBoardEventsBus.once(EVENTS.UI_CHOOSE_DIF, this._onChooseLvl, this);
+  }
+
+  private _onChooseLvl(): void {
+    this._spawn();
+    this._playShowBoard();
+  }
+
+  public _playShowBoard(): void {
     this.dropChipsComponent.eventsBus.once(EVENTS.CHIPS_DROPPED, this._onBoardShowed, this);
     this.dropChipsComponent.drop(this._board, this._tweens, 0.5);
   }
@@ -57,16 +68,16 @@ export class BoardComponent extends BaseComponent {
     this.findWins();
   }
 
-  public spawn(): void {
+  public _spawn(): void {
     const board: Board = this._board = [];
-    const model = this._m3model.generateNewModel();
+    const model = this._m3model.generateNewModel(this._lvlModel.lvlDifficulty);
     this._m3model.model = model;
 
     this.updateBoardComponent.spawn(this._chipsPool, this._boardContainer, board, model);
   }
 
   public findWins(): void {
-    const wins = this.findWinClustersComponent.getWinClusters(this._m3model.model, baseModel.WIDTH, baseModel.HEIGHT);
+    const wins = this.findWinClustersComponent.getWinClusters(this._m3model.model, BASE_MODEL.WIDTH, BASE_MODEL.HEIGHT);
 
     if (wins.length > 0) {
       this._collectWinSectors(wins);
@@ -78,7 +89,7 @@ export class BoardComponent extends BaseComponent {
 
   private _onTrySwap(): void {
     const model = this._m3model.model;
-    const wins = this.findWinClustersComponent.getWinClusters(model, baseModel.WIDTH, baseModel.HEIGHT);
+    const wins = this.findWinClustersComponent.getWinClusters(model, BASE_MODEL.WIDTH, BASE_MODEL.HEIGHT);
 
     if (wins.length > 0) {
       this._collectWinSectors(wins);
@@ -89,8 +100,30 @@ export class BoardComponent extends BaseComponent {
   }
 
   private _awaitSwap(): void {
+    this.uiBoardEventsBus.once(EVENTS.USER_ACTION_SHUFFLE, this._playShuffle, this);
+    this.uiBoardEventsBus.emit(EVENTS.AWAIT_USER_ACTION);
+
     this.swapComponent.eventsBus.once(EVENTS.CHIPS_SWAPPED, this._onTrySwap, this);
+    this.swapComponent.eventsBus.once(EVENTS.CHIPS_START_SWAP, this._disableWaitUserAction, this);
     this.swapComponent.awaitSwap(this._board, this._m3model.model);
+  }
+
+  private _disableWaitUserAction(): void {
+    this.uiBoardEventsBus.off(EVENTS.USER_ACTION_SHUFFLE, this._playShuffle, this);
+    this.uiBoardEventsBus.emit(EVENTS.USER_ACTION_SWAP);
+  }
+
+  private _playShuffle(): void {
+    this.swapComponent.eventsBus.off(EVENTS.CHIPS_SWAPPED, this._onTrySwap, this);
+    this.swapComponent.eventsBus.off(EVENTS.CHIPS_START_SWAP, this._disableWaitUserAction, this);
+    this.swapComponent.disableUserActions();
+
+    this.shuffleComponent.eventsBus.once(EVENTS.SHUFFLE, this._onShuffle, this);
+    this.shuffleComponent.shuffle(this._board, this._m3model.model, this._tweens);
+  }
+
+  private _onShuffle(): void {
+    this.findWins();
   }
 
   private _collectWinSectors(wins: Match3Win[]): void {
@@ -102,7 +135,7 @@ export class BoardComponent extends BaseComponent {
   private _onCollected(): void {
     const model = this._m3model.model;
     this.updateBoardComponent.updateModel(this._wins, this._m3model.model, this._board);
-    const extraChipsModel = this._m3model.generateNewModel(false);
+    const extraChipsModel = this._m3model.generateNewModel(this._lvlModel.lvlDifficulty, false);
     this.updateBoardComponent.spawnNewChips(this._chipsPool, model, extraChipsModel, this._board, this._boardContainer);
 
     this.dropChipsComponent.eventsBus.once(EVENTS.CHIPS_DROPPED, this.findWins, this)

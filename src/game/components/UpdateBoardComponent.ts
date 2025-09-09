@@ -1,5 +1,5 @@
 import { Chip } from "../gameObjects/Chip";
-import { baseModel, CHIPS, GridPosition, Match3Win } from "../models/BoardModel";
+import { BASE_MODEL, CHIPS, GridPosition, Match3Win } from "../models/BoardModel";
 import { BaseComponent } from "./BaseComponent";
 import { Board } from "./BoardComponent";
 
@@ -16,7 +16,7 @@ export class UpdateBoardComponent extends BaseComponent {
       for (let y = 0; y < model[x].length; y++) {
         if (model[x][y] !== CHIPS.LOCK) {
           const chip = chipsPool.get(0, 0, model[x][y]) as Chip;
-          chip.spawnAbove(x, y, -(baseModel.HEIGHT - y), model[x][y]);
+          chip.spawnAbove(x, y, -(BASE_MODEL.HEIGHT - y), model[x][y]);
           board[x].push(chip);
 
           boardContainer.add(chip);

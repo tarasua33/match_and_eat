@@ -14,12 +14,18 @@ export class LvlModel {
     return LvlModel.instance;
   }
 
+  private _lvlDifficulty = 0;
   private _goals!: LvlGoal;
 
   public getNewGoals(): LvlGoal {
     const result: LvlGoal = [];
 
-    const chips = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6, CHIPS.C7];
+    const easy = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5];
+    const normal = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6];
+    const hard = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6, CHIPS.C7];
+
+    const lvlChips = [easy, normal, hard];
+    const chips = lvlChips[this._lvlDifficulty];
 
     for (let i = 0; i < MAX_GOALS; i++) {
       const index = Phaser.Math.RND.between(0, chips.length - 1);
@@ -37,6 +43,14 @@ export class LvlModel {
 
   public get goals(): LvlGoal {
     return this._goals;
+  }
+
+  public set lvlDifficulty(val: number) {
+    this._lvlDifficulty = val;
+  }
+
+  public get lvlDifficulty(): number {
+    return this._lvlDifficulty;
   }
 
   public minusChip(id: CHIPS): boolean {

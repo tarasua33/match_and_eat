@@ -826,6 +826,16 @@
         "type": "image",
         "key": "sticker",
         "url": "inGame_counter.png"
+      },
+      {
+        "type": "image",
+        "key": "intro_button",
+        "url": "button_9slice01.png"
+      },
+      {
+        "type": "image",
+        "key": "button_shuffle",
+        "url": "button_shuffle.png"
       }
     ]
   }

@@ -4,7 +4,7 @@ export class BgTile extends Phaser.GameObjects.Graphics {
   constructor(...arr: ConstructorParameters<typeof Phaser.GameObjects.Graphics>) {
     super(...arr);
 
-    this.fillStyle(0xFF0000, 0.5);
+    this.fillStyle(0xFFFFFF, 0.75);
     this.fillRoundedRect(0, 0, CELL.width, CELL.height, 32);
     this.visible = false;
   }

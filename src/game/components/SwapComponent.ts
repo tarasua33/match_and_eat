@@ -79,10 +79,14 @@ export class SwapComponent extends BaseComponent {
     }
   }
 
-  private _playCantSwap(chipA: Chip, chipB: Chip): void {
+  public disableUserActions(): void {
     this._disableInputs();
     this._hideVfx();
     this._disablePickedChips();
+  }
+
+  private _playCantSwap(chipA: Chip, chipB: Chip): void {
+    this.disableUserActions();
 
     this._showVfx(chipA, chipB);
     this._swapChipA = chipA;
@@ -171,6 +175,7 @@ export class SwapComponent extends BaseComponent {
   }
 
   private _trySwap(chipA: Chip, chipB: Chip): void {
+    this.eventsBus.emit(EVENTS.CHIPS_START_SWAP);
     this._disableInputs();
 
     this._hideVfx();

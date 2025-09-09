@@ -12,14 +12,18 @@ export enum CHIPS {
   C7 = "chip_7",
 };
 
-const allChips = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6, CHIPS.C7];
+const easy = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5];
+const normal = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6];
+const hard = [CHIPS.C1, CHIPS.C2, CHIPS.C3, CHIPS.C4, CHIPS.C5, CHIPS.C6, CHIPS.C7];
 
-export const baseModel = {
+const lvlChips = [easy, normal, hard];
+
+export const BASE_MODEL = {
   WIDTH: 8,
   HEIGHT: 8
 }
 
-export const MAX_CHIPS = baseModel.HEIGHT * baseModel.WIDTH;
+export const MAX_CHIPS = BASE_MODEL.HEIGHT * BASE_MODEL.WIDTH;
 
 export const MIN_CLUSTER_SIZE = 3;
 
@@ -44,13 +48,13 @@ export class BoardModel {
 
   private _model: CHIPS[][];
 
-  public generateNewModel(isInitial = true): CHIPS[][] {
+  public generateNewModel(lvl: number, isInitial = true): CHIPS[][] {
     const result: CHIPS[][] = [];
-    const { WIDTH, HEIGHT } = baseModel;
+    const { WIDTH, HEIGHT } = BASE_MODEL;
     for (let x = 0; x < WIDTH; x++) {
       result.push([]);
       for (let y = 0; y < HEIGHT; y++) {
-        result[x].push(allChips[Math.floor(Math.random() * allChips.length)])
+        result[x].push(lvlChips[lvl][Math.floor(Math.random() * lvlChips[lvl].length)])
       }
     }
 
