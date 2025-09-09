@@ -1,26 +1,29 @@
-import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
+import { EVENTS } from "../events/EventBusComponent";
+import { BaseButton } from "./BaseButton";
 
-export class ShuffleButton extends Phaser.GameObjects.Image {
-  private _baseScale = 2;
-  public readonly eventsBus = new EventBusComponent();
-
-  constructor(...arr: ConstructorParameters<typeof Phaser.GameObjects.Image>) {
+export class ShuffleButton extends BaseButton {
+  constructor(...arr: ConstructorParameters<typeof Phaser.GameObjects.Container>) {
     super(...arr);
+
+    this._baseScale = 2;
+    const bg = this._bg = this.scene.add.sprite(0, 0, "button_shuffle");
+    bg.setOrigin(0.5);
+    this.add(bg);
 
     this.setScale(this._baseScale);
     this.alpha = 0;
   }
 
   public makeActive(): void {
-    this.setInteractive();
+    this._bg.setInteractive();
 
-    this.on("pointerdown", this._onClick, this);
+    this._bg.on("pointerdown", this._onClick, this);
   }
 
   public makeInactive(): void {
-    this.disableInteractive();
+    this._bg.disableInteractive();
 
-    this.off("pointerdown", this._onClick, this);
+    this._bg.off("pointerdown", this._onClick, this);
 
     this.eventsBus.removeAllListeners();
   }
@@ -29,16 +32,6 @@ export class ShuffleButton extends Phaser.GameObjects.Image {
     this.eventsBus.emit(EVENTS.SHUFFLE);
 
     this._playClick();
-  }
-
-  private _playClick(): void {
-    this.scene.tweens.add({
-      targets: this,
-      duration: 250,
-      scale: 0.9,
-      yoyo: true,
-      ease: 'Back.easeOut'
-    });
   }
 
   public show(): void {

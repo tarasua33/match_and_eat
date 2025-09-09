@@ -1,10 +1,9 @@
-import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
+import { EVENTS } from "../events/EventBusComponent";
+import { BaseButton } from "./BaseButton";
 
 const DIFFICULTY = ["Easy", "Normal", "Hard"];
 
-export class LvlButton extends Phaser.GameObjects.Container {
-  public readonly eventsBus = new EventBusComponent();
-  private _bg: Phaser.GameObjects.Image;
+export class LvlButton extends BaseButton {
   private _text: Phaser.GameObjects.Text;
   private _difficulty = 0;
 
@@ -27,8 +26,6 @@ export class LvlButton extends Phaser.GameObjects.Container {
     this.add(goalText);
 
     this.alpha = 1;
-
-    this.scene.add.existing(this);
   }
 
   public setLvl(val: number): void {
@@ -36,17 +33,19 @@ export class LvlButton extends Phaser.GameObjects.Container {
     this._text.text = DIFFICULTY[val];
   }
 
-  public awaitChoose(): void {
+  public makeActive(): void {
     this._bg.setInteractive();
     this._bg.on("pointerdown", this._onChoose, this);
   }
 
-  public endAwait(): void {
+  public makeInactive(): void {
     this._bg.disableInteractive();
     this._bg.off("pointerdown", this._onChoose, this);
   }
 
   private _onChoose(): void {
     this.eventsBus.emit(EVENTS.UI_CHOOSE_DIF, this._difficulty);
+
+    this._playClick();
   }
 }

@@ -94,14 +94,14 @@ export default class IntroScreen extends Phaser.GameObjects.Container {
   private _onCompleteShow(): void {
     for (const ui of this._lvls) {
       ui.eventsBus.once(EVENTS.UI_CHOOSE_DIF, this._onChoose, this);
-      ui.awaitChoose();
+      ui.makeActive();
     }
   }
 
   private _onChoose(val: number): void {
     for (const ui of this._lvls) {
       ui.eventsBus.removeAllListeners();
-      ui.endAwait();
+      ui.makeInactive();
     }
 
     this.eventsBus.emit(EVENTS.UI_CHOOSE_DIF, val);

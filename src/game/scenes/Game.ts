@@ -57,9 +57,8 @@ export class Game extends Scene {
     const uiGoalPopup = new GoalPopup(this);
     uiGoalPopup.setPosition(CELL.width * 2, CELL.height * (BASE_MODEL.HEIGHT + 1) - 15);
 
-    const shuffleButton = new ShuffleButton(this, 0, 0, "button_shuffle");
+    const shuffleButton = new ShuffleButton(this, 0, 0);
     shuffleButton.setPosition(CELL.width * 6, CELL.height * (BASE_MODEL.HEIGHT + 2) - 15);
-    this.add.existing(shuffleButton);
 
     const introScreen = new IntroScreen(this);
     introScreen.setPosition(GAME_DIMENSIONS.width / 2, GAME_DIMENSIONS.width / 2);
