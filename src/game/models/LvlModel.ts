@@ -53,6 +53,15 @@ export class LvlModel {
     return this._lvlDifficulty;
   }
 
+  public get isWin(): boolean {
+    let win = true;
+    for (const goal of this._goals) {
+      if (goal.goal > 0) win = false;
+    }
+
+    return win;
+  }
+
   public minusChip(id: CHIPS): boolean {
     let isGoal = false;
 

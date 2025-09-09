@@ -27,7 +27,7 @@ export class GoalPopup extends Phaser.GameObjects.Container {
     buble.alpha = 0;
     this.add(buble);
 
-    const header = this.scene.add.sprite(0, 5, "popup_header");
+    const header = this._header = this.scene.add.sprite(0, 5, "popup_header");
     header.alpha = 0,
       header.setOrigin(0.5, 0.5);
     header.setScale(0.9, 1);
@@ -85,5 +85,13 @@ export class GoalPopup extends Phaser.GameObjects.Container {
 
   private _onCompleteShow(): void {
     this.eventsBus.emit(EVENTS.UI_READY);
+  }
+
+  public reset(): void {
+    this._buble.alpha = 0;
+    this._header.alpha = 0;
+    for (const goal of this._goalsUi) {
+      goal.alpha = 0;
+    }
   }
 }

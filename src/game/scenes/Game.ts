@@ -6,12 +6,14 @@ import { BgTile } from '../gameObjects/BgTile';
 import { BASE_MODEL, MAX_CHIPS } from '../models/BoardModel';
 import { GoalPopup } from '../ui/GoalPopup';
 import { UiComponent } from '../components/UiComponent';
-import { EventBusComponent } from '../events/EventBusComponent';
+import { EventBusComponent, EVENTS } from '../events/EventBusComponent';
 import IntroScreen from '../ui/IntroScreen';
 import { ShuffleButton } from '../ui/ShuffleButton';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
+  private _uiComponent: UiComponent
+  private _boardComponent: BoardComponent;
 
   constructor() {
     super('Game');
@@ -35,15 +37,30 @@ export class Game extends Scene {
   }
 
   public initGame(): void {
-    const boardContainer = this.add.container();
-    boardContainer.setPosition(0, CELL.height / 2);
+    const uiBoardEventsBus = new EventBusComponent();
 
-    const bgBoardVfx = this._createBoardBgVfx(boardContainer);
-    const chipsPool = this.add.group({
-      classType: Chip,
-      maxSize: MAX_CHIPS,
-    });
+    this._createBoard(uiBoardEventsBus);
 
+    this._createUI(uiBoardEventsBus);
+
+    this._boardComponent.eventsBus.once(EVENTS.WIN, this._restartGame, this);
+    this._boardComponent.startGame();
+    this._uiComponent.startGame();
+  }
+
+  private _restartGame(): void {
+    const uiComponent = this._uiComponent;
+    const boardComponent = this._boardComponent;
+
+    uiComponent.resetComponent();
+    boardComponent.resetComponent();
+
+    boardComponent.eventsBus.once(EVENTS.WIN, this._restartGame, this);
+    boardComponent.startGame();
+    uiComponent.startGame();
+  }
+
+  private _createUI(uiBoardEventsBus: EventBusComponent): void {
     const uiGoalPopup = new GoalPopup(this);
     uiGoalPopup.setPosition(CELL.width * 2, CELL.height * (BASE_MODEL.HEIGHT + 1) - 15);
 
@@ -54,12 +71,20 @@ export class Game extends Scene {
     const introScreen = new IntroScreen(this);
     introScreen.setPosition(GAME_DIMENSIONS.width / 2, GAME_DIMENSIONS.width / 2);
 
-    const uiBoardEventsBus = new EventBusComponent();
+    this._uiComponent = new UiComponent(uiBoardEventsBus, uiGoalPopup, introScreen, shuffleButton);
+  }
 
-    const uiComponent = new UiComponent(uiBoardEventsBus, uiGoalPopup, introScreen, shuffleButton);
-    uiComponent.startGame();
+  private _createBoard(uiBoardEventsBus: EventBusComponent): void {
+    const boardContainer = this.add.container();
+    boardContainer.setPosition(0, CELL.height / 2);
 
-    const boardComponent = new BoardComponent(
+    const bgBoardVfx = this._createBoardBgVfx(boardContainer);
+    const chipsPool = this.add.group({
+      classType: Chip,
+      maxSize: MAX_CHIPS,
+    });
+
+    this._boardComponent = new BoardComponent(
       uiBoardEventsBus,
       chipsPool,
       boardContainer,
@@ -67,7 +92,6 @@ export class Game extends Scene {
       this.tweens,
       this.input
     );
-    boardComponent.startGame();
   }
 
   private _createBoardBgVfx(container: Phaser.GameObjects.Container): BgTile[][] {

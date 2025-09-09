@@ -24,14 +24,13 @@ export class UiComponent extends BaseComponent {
     this._shuffleButton = shuffleButton;
 
     uiBoardEventsBus.on(EVENTS.CHIP_REMOVED, this._chipCollected, this);
-
     shuffleButton.makeInactive();
     uiBoardEventsBus.on(EVENTS.AWAIT_USER_ACTION, this._waitUserAction, this);
   }
 
   private _waitUserAction(): void {
-    const shuffleButton = this._shuffleButton;
     this.uiBoardEventsBus.once(EVENTS.USER_ACTION_SWAP, this._onAction, this);
+    const shuffleButton = this._shuffleButton;
     shuffleButton.eventsBus.once(EVENTS.SHUFFLE, this._onShuffle, this);
     shuffleButton.makeActive();
   }
@@ -50,7 +49,7 @@ export class UiComponent extends BaseComponent {
   public startGame(): void {
     const introScreen = this._introScreen;
 
-    introScreen.eventsBus.on(EVENTS.UI_CHOOSE_DIF, this._onChooseDifficulty, this);
+    introScreen.eventsBus.once(EVENTS.UI_CHOOSE_DIF, this._onChooseDifficulty, this);
     introScreen.show();
   }
 
@@ -58,7 +57,7 @@ export class UiComponent extends BaseComponent {
     this._lvlModel.lvlDifficulty = val;
 
     const introScreen = this._introScreen;
-    introScreen.eventsBus.on(EVENTS.UI_READY, this._playNewLvl, this);
+    introScreen.eventsBus.once(EVENTS.UI_READY, this._playNewLvl, this);
     introScreen.hide();
   }
 
@@ -86,5 +85,24 @@ export class UiComponent extends BaseComponent {
     if (isGoal) {
       this._goalPopup.updateGoals(this._lvlModel.goals);
     }
+  }
+
+  public resetComponent(): void {
+    const uiBoardEventsBus = this.uiBoardEventsBus;
+    // uiBoardEventsBus.on(EVENTS.CHIP_REMOVED, this._chipCollected, this);
+    // uiBoardEventsBus.on(EVENTS.AWAIT_USER_ACTION, this._waitUserAction, this);
+    uiBoardEventsBus.off(EVENTS.USER_ACTION_SWAP, this._onAction, this);
+    uiBoardEventsBus.off(EVENTS.CHIPS_DROPPED, this._showGoalsUI, this);
+
+    const goalPopup = this._goalPopup;
+    goalPopup.eventsBus.off(EVENTS.UI_READY, this._goalUIReady, this);
+
+    const introScreen = this._introScreen;
+    introScreen.eventsBus.off(EVENTS.UI_READY, this._playNewLvl, this);
+
+    const shuffleButton = this._shuffleButton;
+    shuffleButton.eventsBus.off(EVENTS.SHUFFLE, this._onShuffle, this);
+
+    this._goalPopup.reset();
   }
 }

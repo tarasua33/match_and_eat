@@ -10,7 +10,8 @@ export enum EVENTS {
   SHUFFLE = "SHUFFLE",
   AWAIT_USER_ACTION = "AWAIT_USER_ACTION",
   USER_ACTION_SWAP = "USER_ACTION_SWAP",
-  USER_ACTION_SHUFFLE = "USER_ACTION_MOVE",
+  USER_ACTION_SHUFFLE = "USER_ACTION_SHUFFLE",
+  WIN = "WIN",
 }
 
 export class EventBusComponent extends Phaser.Events.EventEmitter { }

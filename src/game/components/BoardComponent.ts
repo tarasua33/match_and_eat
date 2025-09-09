@@ -60,12 +60,30 @@ export class BoardComponent extends BaseComponent {
   }
 
   public _onBoardShowed(): void {
-    this.uiBoardEventsBus.once(EVENTS.UI_READY, this._startGame, this);
+    this.uiBoardEventsBus.once(EVENTS.UI_READY, this._playGame, this);
     this.uiBoardEventsBus.emit(EVENTS.CHIPS_DROPPED);
   }
 
-  private _startGame(): void {
+  private _playGame(): void {
     this.findWins();
+  }
+
+  private _returnAllChips(): void {
+    if (this._board && this._board.length > 0) {
+      const board = this._board;
+
+      for (let x = 0; x < board.length; x++) {
+        for (let y = 0; y < board[x].length; y++) {
+          const chip = board[x][y];
+          if (chip) {
+            board[x][y] = undefined;
+            this._chipsPool.killAndHide(chip);
+            chip.active = false;
+            chip.visible = false;
+          }
+        }
+      }
+    }
   }
 
   public _spawn(): void {
@@ -83,7 +101,7 @@ export class BoardComponent extends BaseComponent {
       this._collectWinSectors(wins);
     }
     else {
-      this._awaitSwap();
+      this._nextStep();
     }
   }
 
@@ -94,12 +112,22 @@ export class BoardComponent extends BaseComponent {
     if (wins.length > 0) {
       this._collectWinSectors(wins);
     } else {
-      this.swapComponent.eventsBus.once(EVENTS.CHIPS_SWAPPED, this._awaitSwap, this);
+      this.swapComponent.eventsBus.once(EVENTS.CHIPS_SWAPPED, this._nextStep, this);
       this.swapComponent.swapBack(this._board, model);
     }
   }
 
-  private _awaitSwap(): void {
+  private _nextStep(): void {
+    const isWin = this._lvlModel.isWin;
+
+    if (isWin) {
+      this.eventsBus.emit(EVENTS.WIN);
+    } else {
+      this._waitUserAction();
+    }
+  }
+
+  private _waitUserAction(): void {
     this.uiBoardEventsBus.once(EVENTS.USER_ACTION_SHUFFLE, this._playShuffle, this);
     this.uiBoardEventsBus.emit(EVENTS.AWAIT_USER_ACTION);
 
@@ -149,5 +177,10 @@ export class BoardComponent extends BaseComponent {
     chip.visible = false;
 
     this.uiBoardEventsBus.emit(EVENTS.CHIP_REMOVED, chip.typeID);
+  }
+
+  public resetComponent(): void {
+    this._returnAllChips();
+    this.swapComponent.disableUserActions();
   }
 }
