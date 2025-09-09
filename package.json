@@ -1,5 +1,5 @@
 {
-  "name": "template-vite-ts",
+  "name": "match_and_eat",
   "description": "A Phaser 3 TypeScript template using Vite.",
   "version": "1.4.0",
   "scripts": {
