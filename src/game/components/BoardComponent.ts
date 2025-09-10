@@ -1,6 +1,7 @@
 import { EventBusComponent, EVENTS } from "../events/EventBusComponent";
 import { BgTile } from "../gameObjects/BgTile";
 import { Chip } from "../gameObjects/Chip";
+import { Tile } from "../gameObjects/Tile";
 import { BASE_MODEL, Match3Win } from "../models/BoardModel";
 import { BaseComponent } from "./BaseComponent";
 import { BoardCollectWinsComponent } from "./BoardCollectWinsComponent";
@@ -22,14 +23,19 @@ export class BoardComponent extends BaseComponent {
   public readonly shuffleComponent = new ShuffleComponent();
   private _tweens: Phaser.Tweens.TweenManager;
   private _chipsPool: Phaser.GameObjects.Group;
+  private _tilePool: Phaser.GameObjects.Group
   private _boardContainer: Phaser.GameObjects.Container;
+  private _tileContainer: Phaser.GameObjects.Container;
   private _board: Board = [];
+  private _tileBoard: Tile[] = [];
   private _wins: Match3Win[] = [];
 
   constructor(
     uiBoardEventsBus: EventBusComponent,
     chipsPool: Phaser.GameObjects.Group,
+    tilePool: Phaser.GameObjects.Group,
     boardContainer: Phaser.GameObjects.Container,
+    tileContainer: Phaser.GameObjects.Container,
     bgBoardVfx: BgTile[][],
     tweens: Phaser.Tweens.TweenManager,
     input: Phaser.Input.InputPlugin
@@ -37,7 +43,9 @@ export class BoardComponent extends BaseComponent {
     super();
     this.uiBoardEventsBus = uiBoardEventsBus;
     this._chipsPool = chipsPool;
+    this._tilePool = tilePool;
     this._boardContainer = boardContainer;
+    this._tileContainer = tileContainer;
     this._tweens = tweens;
     this.swapComponent = new SwapComponent(input, tweens, bgBoardVfx);
 
@@ -83,14 +91,31 @@ export class BoardComponent extends BaseComponent {
         }
       }
     }
+
+    if (this._tileBoard && this._tileBoard.length > 0) {
+      for (const tile of this._tileBoard) {
+        this._tilePool.killAndHide(tile);
+        tile.active = false;
+        tile.visible = false;
+      }
+    }
   }
 
   public _spawn(): void {
     const board: Board = this._board = [];
+    const tileBoard = this._tileBoard = [];
     const model = this._m3model.generateNewModel(this._lvlModel.lvlDifficulty);
     this._m3model.model = model;
 
-    this.updateBoardComponent.spawn(this._chipsPool, this._boardContainer, board, model);
+    this.updateBoardComponent.spawn(
+      this._chipsPool,
+      this._tilePool,
+      this._boardContainer,
+      this._tileContainer,
+      board,
+      tileBoard,
+      model
+    );
   }
 
   public findWins(): void {

@@ -36,6 +36,11 @@
         "type": "image",
         "key": "chip_7",
         "url": "characters_0007.png"
+      },
+      {
+        "type": "image",
+        "key": "tile",
+        "url": "tile.png"
       }
     ]
   },

@@ -9,6 +9,7 @@ import { UiComponent } from '../components/UiComponent';
 import { EventBusComponent, EVENTS } from '../events/EventBusComponent';
 import IntroScreen from '../ui/IntroScreen';
 import { ShuffleButton } from '../ui/ShuffleButton';
+import { Tile } from '../gameObjects/Tile';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -67,10 +68,19 @@ export class Game extends Scene {
   }
 
   private _createBoard(uiBoardEventsBus: EventBusComponent): void {
+    const tileContainer = this.add.container();
+    tileContainer.setPosition(0, CELL.height / 2);
+
     const boardContainer = this.add.container();
     boardContainer.setPosition(0, CELL.height / 2);
 
     const bgBoardVfx = this._createBoardBgVfx(boardContainer);
+
+    const tilePool = this.add.group({
+      classType: Tile,
+      maxSize: MAX_CHIPS,
+    });
+
     const chipsPool = this.add.group({
       classType: Chip,
       maxSize: MAX_CHIPS,
@@ -79,7 +89,9 @@ export class Game extends Scene {
     this._boardComponent = new BoardComponent(
       uiBoardEventsBus,
       chipsPool,
+      tilePool,
       boardContainer,
+      tileContainer,
       bgBoardVfx,
       this.tweens,
       this.input
